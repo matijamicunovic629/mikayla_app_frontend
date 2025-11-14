@@ -113,7 +113,7 @@ export const SocialAccountsView = () => {
     <Box>
       <Box mb={8} display="flex" justifyContent="space-between" alignItems="center">
         <Heading size="lg">Social Accounts</Heading>
-        <Button leftIcon={<Plus size={20} />} variant="solid" onClick={onOpen}>
+        <Button leftIcon={<Plus size={20} />} colorScheme="blue" onClick={onOpen}>
           Add Account
         </Button>
       </Box>
@@ -136,7 +136,7 @@ export const SocialAccountsView = () => {
           <Text color="gray.500" textAlign="center">
             Connect your social media accounts to start managing messages in one place
           </Text>
-          <Button variant="solid" onClick={onOpen} mt={4}>
+          <Button colorScheme="blue" onClick={onOpen} mt={4}>
             Connect Your First Account
           </Button>
         </VStack>

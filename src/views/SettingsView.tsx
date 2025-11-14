@@ -143,7 +143,7 @@ export const SettingsView = () => {
 
               <Button
                 leftIcon={<Save size={20} />}
-                variant="solid"
+                colorScheme="blue"
                 onClick={handleSave}
                 isLoading={saving}
               >

@@ -78,7 +78,7 @@ export const LoginForm = ({ onToggleForm }: LoginFormProps) => {
 
             <Button
               type="submit"
-              variant="solid"
+              colorScheme="purple"
               width="full"
               isLoading={loading}
               mt={4}

@@ -93,7 +93,7 @@ export const SignUpForm = ({ onToggleForm }: SignUpFormProps) => {
 
             <Button
               type="submit"
-              variant="solid"
+              colorScheme="purple"
               width="full"
               isLoading={loading}
               mt={4}
