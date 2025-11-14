@@ -88,18 +88,40 @@ export const Sidebar = ({ activeView, onViewChange, isMobile, isOpen, onClose, o
 
       <VStack spacing={1} p={4} flex={1} align="stretch">
         {menuItems.map((item) => (
-          <Button
+          <Box
             key={item.id}
-            leftIcon={<Icon as={item.icon} />}
-            justifyContent="flex-start"
-            variant={activeView === item.id ? 'solid' : 'ghost'}
-            colorScheme={activeView === item.id ? 'purple' : 'gray'}
-            onClick={() => handleNavClick(item.id)}
-            size="lg"
-            fontWeight="medium"
+            position="relative"
+            borderRadius="8px"
+            p="1px"
+            bgGradient={activeView === item.id ? "linear(to-r, cyan.400, purple.500)" : "transparent"}
+            _hover={{
+              bgGradient: "linear(to-r, cyan.400, purple.500)",
+            }}
+            transition="all 0.2s"
           >
-            {item.label}
-          </Button>
+            <Button
+              leftIcon={<Icon as={item.icon} />}
+              justifyContent="flex-start"
+              variant="ghost"
+              onClick={() => handleNavClick(item.id)}
+              size="lg"
+              fontWeight="medium"
+              w="full"
+              borderRadius="7px"
+              bg={colorMode === 'dark' ? 'gray.900' : 'white'}
+              color={activeView === item.id ? (colorMode === 'dark' ? 'white' : 'gray.900') : 'gray.500'}
+              _hover={{
+                bg: colorMode === 'dark' ? 'gray.900' : 'white',
+                color: colorMode === 'dark' ? 'white' : 'gray.900',
+                opacity: 0.9,
+              }}
+              _active={{
+                bg: colorMode === 'dark' ? 'gray.900' : 'white',
+              }}
+            >
+              {item.label}
+            </Button>
+          </Box>
         ))}
       </VStack>
 
