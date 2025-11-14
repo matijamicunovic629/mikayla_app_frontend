@@ -17,7 +17,7 @@ import {
   VStack,
   Divider,
 } from '@chakra-ui/react';
-import { Moon, Sun, ChevronDown, RefreshCw, Check } from 'lucide-react';
+import { Moon, Sun, ChevronDown, RefreshCw, Check, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
@@ -70,13 +70,16 @@ export const Header = () => {
     });
   };
 
-  const handleSync = async () => {
+  const handleSync = async (accountIds?: string[]) => {
+    const idsToSync = accountIds || selectedAccounts;
+    if (idsToSync.length === 0) return;
+
     setIsSyncing(true);
 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     const now = new Date().toISOString();
-    for (const accountId of selectedAccounts) {
+    for (const accountId of idsToSync) {
       await supabase
         .from('social_accounts')
         .update({ last_synced_at: now })
@@ -86,6 +89,10 @@ export const Header = () => {
     setLastSyncTime(now);
     await fetchSocialAccounts();
     setIsSyncing(false);
+  };
+
+  const handleManageAccounts = () => {
+    window.location.hash = '#accounts';
   };
 
   const getTimeSinceSync = (lastSync: string | null) => {
@@ -167,13 +174,7 @@ export const Header = () => {
               )}
             </HStack>
           </MenuButton>
-          <MenuList minW="280px" maxH="400px" overflowY="auto">
-            <Box px={3} py={2}>
-              <Text fontSize="xs" fontWeight="semibold" color="gray.500" textTransform="uppercase">
-                Social Accounts
-              </Text>
-            </Box>
-            <Divider />
+          <MenuList minW="320px" maxH="400px" overflowY="auto">
             {socialAccounts.length === 0 ? (
               <Box px={4} py={3}>
                 <Text fontSize="sm" color="gray.500">
@@ -186,8 +187,8 @@ export const Header = () => {
                 return (
                   <MenuItem
                     key={account.id}
-                    onClick={() => handleAccountToggle(account.id)}
                     closeOnSelect={false}
+                    py={3}
                   >
                     <HStack spacing={3} w="full">
                       <Checkbox
@@ -204,32 +205,54 @@ export const Header = () => {
                         <Text fontSize="sm" fontWeight="medium">
                           {account.platform_username}
                         </Text>
-                        <Text fontSize="xs" color="gray.500">
-                          {account.platform}
-                        </Text>
+                        <HStack spacing={2}>
+                          <Text fontSize="xs" color="gray.500">
+                            {account.platform}
+                          </Text>
+                          <Badge
+                            colorScheme={
+                              syncStatus.status === 'success'
+                                ? 'green'
+                                : syncStatus.status === 'warning'
+                                ? 'orange'
+                                : 'red'
+                            }
+                            fontSize="xs"
+                          >
+                            {syncStatus.text}
+                          </Badge>
+                          <Text fontSize="xs" color="gray.500">
+                            {getTimeSinceSync(account.last_synced_at)}
+                          </Text>
+                        </HStack>
                       </VStack>
-                      <VStack align="flex-end" spacing={0}>
-                        <Badge
-                          colorScheme={
-                            syncStatus.status === 'success'
-                              ? 'green'
-                              : syncStatus.status === 'warning'
-                              ? 'orange'
-                              : 'red'
-                          }
-                          fontSize="xs"
-                        >
-                          {syncStatus.text}
-                        </Badge>
-                        <Text fontSize="xs" color="gray.500">
-                          {getTimeSinceSync(account.last_synced_at)}
-                        </Text>
-                      </VStack>
+                      <Tooltip label="Sync this account">
+                        <IconButton
+                          aria-label="Sync account"
+                          icon={<RefreshCw size={14} />}
+                          size="sm"
+                          variant="ghost"
+                          colorScheme="purple"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSync([account.id]);
+                          }}
+                          isLoading={isSyncing}
+                        />
+                      </Tooltip>
                     </HStack>
                   </MenuItem>
                 );
               })
             )}
+            <Divider />
+            <MenuItem
+              icon={<Settings size={16} />}
+              onClick={handleManageAccounts}
+              fontWeight="medium"
+            >
+              Manage Accounts
+            </MenuItem>
           </MenuList>
         </Menu>
 
