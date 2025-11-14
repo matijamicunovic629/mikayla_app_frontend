@@ -191,7 +191,7 @@ export const AIConfigView = () => {
                     onChange={(e) =>
                       setConfig({ ...config, is_enabled: e.target.checked })
                     }
-                    colorScheme="blue"
+                    colorScheme="purple"
                   />
                 </FormControl>
 
@@ -202,7 +202,7 @@ export const AIConfigView = () => {
                     onChange={(e) =>
                       setConfig({ ...config, auto_reply_enabled: e.target.checked })
                     }
-                    colorScheme="blue"
+                    colorScheme="purple"
                     isDisabled={!config.is_enabled}
                   />
                 </FormControl>
@@ -301,7 +301,7 @@ export const AIConfigView = () => {
                     placeholder="Add keyword..."
                     onKeyPress={(e) => e.key === 'Enter' && addIncludeKeyword()}
                   />
-                  <Button onClick={addIncludeKeyword} colorScheme="blue">
+                  <Button onClick={addIncludeKeyword} variant="solid" size="sm">
                     Add
                   </Button>
                 </HStack>
@@ -334,7 +334,7 @@ export const AIConfigView = () => {
                     placeholder="Add keyword..."
                     onKeyPress={(e) => e.key === 'Enter' && addExcludeKeyword()}
                   />
-                  <Button onClick={addExcludeKeyword} colorScheme="red">
+                  <Button onClick={addExcludeKeyword} variant="solid" size="sm">
                     Add
                   </Button>
                 </HStack>
@@ -358,7 +358,7 @@ export const AIConfigView = () => {
 
         <Button
           leftIcon={<Save size={20} />}
-          colorScheme="blue"
+          variant="solid"
           size="lg"
           onClick={handleSave}
           isLoading={saving}

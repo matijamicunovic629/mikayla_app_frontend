@@ -103,16 +103,36 @@ const theme = extendTheme({
   },
   components: {
     Button: {
+      baseStyle: {
+        fontWeight: '600',
+        letterSpacing: '0.5px',
+        textTransform: 'uppercase',
+      },
       variants: {
         solid: {
-          bg: 'accent.primary',
+          position: 'relative',
+          bg: 'transparent',
+          border: 'none',
+          padding: '2px',
+          borderRadius: '12px',
+          backgroundImage: 'linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%)',
           color: 'white',
-          _hover: {
-            bg: 'purple.600',
-            transform: 'translateY(-1px)',
-            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.4)',
+          _before: {
+            content: '""',
+            position: 'absolute',
+            inset: '2px',
+            bg: '#0a0a0f',
+            borderRadius: '10px',
+            zIndex: -1,
           },
-          transition: 'all 0.2s',
+          _hover: {
+            boxShadow: '0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(34, 211, 238, 0.4)',
+            transform: 'translateY(-1px)',
+            _before: {
+              bg: 'rgba(139, 92, 246, 0.1)',
+            },
+          },
+          transition: 'all 0.3s ease',
         },
         outline: {
           borderColor: 'border.default',

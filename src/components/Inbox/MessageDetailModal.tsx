@@ -176,13 +176,12 @@ export const MessageDetailModal = ({
                     onClick={handleGenerateAIReply}
                     isLoading={generatingAI}
                     variant="outline"
-                    colorScheme="blue"
                   >
                     Generate AI Reply
                   </Button>
                   <Button
                     leftIcon={<Send size={18} />}
-                    colorScheme="blue"
+                    variant="solid"
                     onClick={handleSendReply}
                     isLoading={sending}
                     isDisabled={!replyContent.trim()}
