@@ -45,7 +45,7 @@ export const LoginForm = ({ onToggleForm }: LoginFormProps) => {
   };
 
   return (
-    <Box w="full" maxW="400px" mx="auto" bg="bg.surface" p={8} borderRadius="lg" shadow="lg">
+    <Box w="full" maxW="400px" mx="auto" bg="bg.surface" p={8} borderRadius="xl" borderWidth="1px" borderColor="border.default">
       <VStack spacing={6} align="stretch">
         <Heading size="lg" textAlign="center">
           Sign In
@@ -78,10 +78,11 @@ export const LoginForm = ({ onToggleForm }: LoginFormProps) => {
 
             <Button
               type="submit"
-              colorScheme="blue"
+              colorScheme="purple"
               width="full"
               isLoading={loading}
               mt={4}
+              size="lg"
             >
               Sign In
             </Button>
@@ -90,7 +91,7 @@ export const LoginForm = ({ onToggleForm }: LoginFormProps) => {
 
         <Text textAlign="center" fontSize="sm" color="text.muted">
           Don't have an account?{' '}
-          <Button variant="link" colorScheme="blue" onClick={onToggleForm}>
+          <Button variant="link" colorScheme="purple" onClick={onToggleForm}>
             Sign Up
           </Button>
         </Text>

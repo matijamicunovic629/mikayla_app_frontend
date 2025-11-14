@@ -71,7 +71,7 @@ export const Sidebar = ({ activeView, onViewChange, isMobile, isOpen, onClose, o
         borderBottom="1px"
         borderColor="border.default"
       >
-        <Text fontSize="2xl" fontWeight="bold" bgGradient="linear(to-r, blue.500, cyan.500)" bgClip="text">
+        <Text fontSize="2xl" fontWeight="bold" bgGradient="linear(to-r, purple.400, purple.600)" bgClip="text">
           FansMetric
         </Text>
         <Tooltip label={colorMode === 'light' ? 'Dark mode' : 'Light mode'}>
@@ -93,7 +93,7 @@ export const Sidebar = ({ activeView, onViewChange, isMobile, isOpen, onClose, o
             leftIcon={<Icon as={item.icon} />}
             justifyContent="flex-start"
             variant={activeView === item.id ? 'solid' : 'ghost'}
-            colorScheme={activeView === item.id ? 'blue' : 'gray'}
+            colorScheme={activeView === item.id ? 'purple' : 'gray'}
             onClick={() => handleNavClick(item.id)}
             size="lg"
             fontWeight="medium"
@@ -153,7 +153,7 @@ export const Sidebar = ({ activeView, onViewChange, isMobile, isOpen, onClose, o
             variant="ghost"
             mr={3}
           />
-          <Text fontSize="xl" fontWeight="bold" bgGradient="linear(to-r, blue.500, cyan.500)" bgClip="text">
+          <Text fontSize="xl" fontWeight="bold" bgGradient="linear(to-r, purple.400, purple.600)" bgClip="text">
             FansMetric
           </Text>
         </Flex>

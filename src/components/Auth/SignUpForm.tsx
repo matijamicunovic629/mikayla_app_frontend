@@ -47,7 +47,7 @@ export const SignUpForm = ({ onToggleForm }: SignUpFormProps) => {
   };
 
   return (
-    <Box w="full" maxW="400px" mx="auto" bg="bg.surface" p={8} borderRadius="lg" shadow="lg">
+    <Box w="full" maxW="400px" mx="auto" bg="bg.surface" p={8} borderRadius="xl" borderWidth="1px" borderColor="border.default">
       <VStack spacing={6} align="stretch">
         <Heading size="lg" textAlign="center">
           Create Account
@@ -93,10 +93,11 @@ export const SignUpForm = ({ onToggleForm }: SignUpFormProps) => {
 
             <Button
               type="submit"
-              colorScheme="blue"
+              colorScheme="purple"
               width="full"
               isLoading={loading}
               mt={4}
+              size="lg"
             >
               Create Account
             </Button>
@@ -105,7 +106,7 @@ export const SignUpForm = ({ onToggleForm }: SignUpFormProps) => {
 
         <Text textAlign="center" fontSize="sm" color="text.muted">
           Already have an account?{' '}
-          <Button variant="link" colorScheme="blue" onClick={onToggleForm}>
+          <Button variant="link" colorScheme="purple" onClick={onToggleForm}>
             Sign In
           </Button>
         </Text>
