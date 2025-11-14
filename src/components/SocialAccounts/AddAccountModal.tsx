@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { toast } from '../../lib/toast';
-import { Twitter, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Heart, Users, DollarSign, Video } from 'lucide-react';
 
 interface AddAccountModalProps {
   isOpen: boolean;
@@ -26,10 +26,10 @@ export const AddAccountModal = ({
 }: AddAccountModalProps) => {
 
   const platforms = [
-    { name: 'Twitter', icon: Twitter, color: 'twitter' },
-    { name: 'Facebook', icon: Facebook, color: 'facebook' },
-    { name: 'Instagram', icon: Instagram, color: 'pink' },
-    { name: 'LinkedIn', icon: Linkedin, color: 'linkedin' },
+    { name: 'OnlyFans', icon: Heart, color: 'blue' },
+    { name: 'Fansly', icon: Users, color: 'cyan' },
+    { name: 'Patreon', icon: DollarSign, color: 'orange' },
+    { name: 'HeroHero', icon: Video, color: 'purple' },
   ];
 
   const handleConnect = (platform: string) => {

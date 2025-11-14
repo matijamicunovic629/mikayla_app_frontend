@@ -122,10 +122,10 @@ export const SocialAccountsView = () => {
 
   const getPlatformColor = (platform: string) => {
     const colors: Record<string, string> = {
-      twitter: 'twitter',
-      facebook: 'facebook',
-      instagram: 'pink',
-      linkedin: 'linkedin',
+      onlyfans: 'blue',
+      fansly: 'cyan',
+      patreon: 'orange',
+      herohero: 'purple',
     };
     return colors[platform.toLowerCase()] || 'gray';
   };

@@ -40,10 +40,10 @@ export const InboxFilters = ({ filters, onFilterChange }: InboxFiltersProps) => 
           onChange={(e) => onFilterChange('platform', e.target.value)}
         >
           <option value="all">All Platforms</option>
-          <option value="twitter">Twitter</option>
-          <option value="facebook">Facebook</option>
-          <option value="instagram">Instagram</option>
-          <option value="linkedin">LinkedIn</option>
+          <option value="onlyfans">OnlyFans</option>
+          <option value="fansly">Fansly</option>
+          <option value="patreon">Patreon</option>
+          <option value="herohero">HeroHero</option>
         </Select>
 
         <Select
