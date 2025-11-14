@@ -124,7 +124,12 @@ export const MessageDetailModal = ({
         <ModalCloseButton />
         <ModalBody pb={6} overflowY="auto">
           <VStack spacing={4} align="stretch">
-            <Box bg="gray.50" p={4} borderRadius="md">
+            <Box
+              bg="bg.muted"
+              _dark={{ bg: 'whiteAlpha.100' }}
+              p={4}
+              borderRadius="md"
+            >
               <Text fontSize="sm" whiteSpace="pre-wrap">
                 {message.content}
               </Text>
@@ -140,6 +145,7 @@ export const MessageDetailModal = ({
                   <Box
                     key={reply.id}
                     bg={reply.sent_by_ai ? 'blue.50' : 'green.50'}
+                    _dark={{ bg: reply.sent_by_ai ? 'blue.900' : 'green.900' }}
                     p={4}
                     borderRadius="md"
                   >
@@ -147,7 +153,7 @@ export const MessageDetailModal = ({
                       <Badge colorScheme={reply.sent_by_ai ? 'blue' : 'green'}>
                         {reply.sent_by_ai ? 'AI Reply' : 'Manual Reply'}
                       </Badge>
-                      <Text fontSize="xs" color="gray.500">
+                      <Text fontSize="xs" color="text.muted">
                         {reply.sent_at && new Date(reply.sent_at).toLocaleString()}
                       </Text>
                     </Flex>

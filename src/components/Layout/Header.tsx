@@ -31,7 +31,11 @@ interface SocialAccount {
   last_synced_at: string | null;
 }
 
-export const Header = () => {
+interface HeaderProps {
+  onViewChange?: (view: string) => void;
+}
+
+export const Header = ({ onViewChange }: HeaderProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user } = useAuth();
   const [socialAccounts, setSocialAccounts] = useState<SocialAccount[]>([]);
@@ -92,7 +96,9 @@ export const Header = () => {
   };
 
   const handleManageAccounts = () => {
-    window.location.hash = '#accounts';
+    if (onViewChange) {
+      onViewChange('accounts');
+    }
   };
 
   const getTimeSinceSync = (lastSync: string | null) => {

@@ -124,8 +124,13 @@ export const SettingsView = () => {
 
               <FormControl>
                 <FormLabel>Email</FormLabel>
-                <Input value={profile.email} isReadOnly bg="gray.50" />
-                <Text fontSize="xs" color="gray.500" mt={1}>
+                <Input
+                  value={profile.email}
+                  isReadOnly
+                  bg="bg.muted"
+                  _dark={{ bg: 'whiteAlpha.100' }}
+                />
+                <Text fontSize="xs" color="text.muted" mt={1}>
                   Email cannot be changed
                 </Text>
               </FormControl>

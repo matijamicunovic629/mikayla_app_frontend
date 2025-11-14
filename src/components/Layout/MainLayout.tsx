@@ -24,7 +24,7 @@ export const MainLayout = ({ children, activeView, onViewChange }: MainLayoutPro
         onOpen={() => setIsSidebarOpen(true)}
       />
       <Box ml={{ base: 0, md: '260px' }} minH="100vh">
-        <Header />
+        <Header onViewChange={onViewChange} />
         <Container maxW="container.xl" py={8} px={{ base: 4, md: 8 }}>
           {children}
         </Container>
