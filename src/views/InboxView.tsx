@@ -101,8 +101,12 @@ export const InboxView = () => {
       .order('created_at', { ascending: true });
 
     setMessageReplies(replies || []);
+
+    setMessages((prev) =>
+      prev.map((m) => (m.id === message.id ? { ...m, is_read: true } : m))
+    );
+
     onOpen();
-    fetchMessages();
   };
 
   const handleFilterChange = (key: string, value: string) => {
