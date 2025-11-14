@@ -3,18 +3,29 @@ import {
   Box,
   Heading,
   Button,
-  SimpleGrid,
   useDisclosure,
-  
   Text,
   VStack,
   Icon,
+  Flex,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Avatar,
+  Badge,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import { toast } from '../lib/toast';
-import { Plus, Users } from 'lucide-react';
+import { Plus, Users, MoreHorizontal, Settings, MessageSquare, AlertCircle } from 'lucide-react';
 import { supabase, SocialAccount } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { SocialAccountCard } from '../components/SocialAccounts/SocialAccountCard';
 import { AddAccountModal } from '../components/SocialAccounts/AddAccountModal';
 
 export const SocialAccountsView = () => {
@@ -98,11 +109,25 @@ export const SocialAccountsView = () => {
   };
 
   const handleSync = async (id: string) => {
+    toast({
+      title: 'Syncing messages',
+      status: 'info',
+    });
     await supabase
       .from('social_accounts')
       .update({ last_synced_at: new Date().toISOString() })
       .eq('id', id);
     fetchAccounts();
+  };
+
+  const getPlatformColor = (platform: string) => {
+    const colors: Record<string, string> = {
+      twitter: 'twitter',
+      facebook: 'facebook',
+      instagram: 'pink',
+      linkedin: 'linkedin',
+    };
+    return colors[platform.toLowerCase()] || 'gray';
   };
 
   if (loading) {
@@ -111,29 +136,35 @@ export const SocialAccountsView = () => {
 
   return (
     <Box>
-      <Box mb={8} display="flex" justifyContent="space-between" alignItems="center">
-        <Heading size="lg">Social Accounts</Heading>
-        <Button leftIcon={<Plus size={20} />} colorScheme="blue" onClick={onOpen}>
-          Add Account
+      <Flex mb={6} justify="space-between" align="center">
+        <Box>
+          <Heading size="lg" mb={1}>Accounts</Heading>
+          <Text color="text.muted" fontSize="sm">
+            View accounts on the currently selected team
+          </Text>
+        </Box>
+        <Button leftIcon={<Plus size={18} />} colorScheme="blue" onClick={onOpen}>
+          Link a new Account
         </Button>
-      </Box>
+      </Flex>
 
       {accounts.length === 0 ? (
         <VStack
           spacing={4}
           py={20}
           px={6}
-          bg="gray.50"
+          bg="bg.muted"
+          _dark={{ bg: 'gray.800' }}
           borderRadius="lg"
           borderWidth="2px"
           borderStyle="dashed"
-          borderColor="gray.300"
+          borderColor="border.default"
         >
           <Icon as={Users} w={16} h={16} color="gray.400" />
-          <Heading size="md" color="gray.600">
+          <Heading size="md" color="text.muted">
             No social accounts connected
           </Heading>
-          <Text color="gray.500" textAlign="center">
+          <Text color="text.subtle" textAlign="center">
             Connect your social media accounts to start managing messages in one place
           </Text>
           <Button colorScheme="blue" onClick={onOpen} mt={4}>
@@ -141,17 +172,110 @@ export const SocialAccountsView = () => {
           </Button>
         </VStack>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-          {accounts.map((account) => (
-            <SocialAccountCard
-              key={account.id}
-              account={account}
-              onDelete={handleDelete}
-              onToggleActive={handleToggleActive}
-              onSync={handleSync}
-            />
-          ))}
-        </SimpleGrid>
+        <Box
+          borderWidth="1px"
+          borderColor="border.default"
+          borderRadius="lg"
+          overflow="hidden"
+          bg="bg.surface"
+        >
+          <Table variant="simple">
+            <Thead bg="bg.muted" _dark={{ bg: 'whiteAlpha.50' }}>
+              <Tr>
+                <Th color="text.muted" textTransform="none" fontWeight="semibold">Sync</Th>
+                <Th color="text.muted" textTransform="none" fontWeight="semibold">Unread</Th>
+                <Th color="text.muted" textTransform="none" fontWeight="semibold">Account</Th>
+                <Th color="text.muted" textTransform="none" fontWeight="semibold">Plan</Th>
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {accounts.map((account) => (
+                <Tr key={account.id} _hover={{ bg: 'bg.subtle' }}>
+                  <Td>
+                    <Flex align="center" gap={2}>
+                      {account.is_active ? (
+                        <Badge colorScheme="green" fontSize="xs">Active</Badge>
+                      ) : (
+                        <Flex align="center" gap={1}>
+                          <Icon as={AlertCircle} boxSize={4} color="red.500" />
+                          <Text fontSize="xs" color="red.500" fontWeight="medium">Lost</Text>
+                        </Flex>
+                      )}
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align="center" gap={1}>
+                      <Icon as={MessageSquare} boxSize={4} color="text.muted" />
+                      <Text fontSize="sm">0</Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align="center" gap={3}>
+                      <Avatar
+                        size="sm"
+                        name={account.platform_username}
+                        src={account.profile_image_url || undefined}
+                      />
+                      <Box>
+                        <Text fontWeight="semibold" fontSize="sm">
+                          {account.platform_username}
+                        </Text>
+                        <Text fontSize="xs" color="text.muted">
+                          @{account.platform_username}
+                        </Text>
+                      </Box>
+                      <Badge colorScheme={getPlatformColor(account.platform)} fontSize="xs">
+                        {account.platform}
+                      </Badge>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Badge colorScheme="green" fontSize="xs" px={3} py={1}>
+                      Pro Trial
+                    </Badge>
+                  </Td>
+                  <Td>
+                    <Flex gap={1} justify="flex-end">
+                      <IconButton
+                        icon={<MessageSquare size={18} />}
+                        aria-label="Messages"
+                        variant="ghost"
+                        size="sm"
+                      />
+                      <Menu>
+                        <MenuButton
+                          as={IconButton}
+                          icon={<Settings size={18} />}
+                          variant="ghost"
+                          size="sm"
+                          aria-label="Settings"
+                        />
+                        <MenuList>
+                          <MenuItem onClick={() => handleSync(account.id)}>
+                            Sync Messages
+                          </MenuItem>
+                          <MenuItem onClick={() => handleToggleActive(account.id, !account.is_active)}>
+                            {account.is_active ? 'Deactivate' : 'Activate'}
+                          </MenuItem>
+                          <MenuItem color="red.500" onClick={() => handleDelete(account.id)}>
+                            Remove Account
+                          </MenuItem>
+                        </MenuList>
+                      </Menu>
+                      <IconButton
+                        icon={<MoreHorizontal size={18} />}
+                        aria-label="More options"
+                        variant="ghost"
+                        size="sm"
+                      />
+                    </Flex>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
       )}
 
       <AddAccountModal
