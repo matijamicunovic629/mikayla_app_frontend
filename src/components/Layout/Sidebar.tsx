@@ -12,13 +12,10 @@ import {
   MenuItem,
   IconButton,
   useColorMode,
-  Tooltip,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   DrawerCloseButton,
-  DrawerBody,
-  DrawerHeader,
 } from '@chakra-ui/react';
 import {
   MessageSquare,
@@ -28,8 +25,6 @@ import {
   Bot,
   LogOut,
   ChevronDown,
-  Moon,
-  Sun,
   MenuIcon,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -67,23 +62,13 @@ export const Sidebar = ({ activeView, onViewChange, isMobile, isOpen, onClose, o
       <Flex
         p={6}
         align="center"
-        justify="space-between"
+        justify="center"
         borderBottom="1px"
         borderColor="border.default"
       >
         <Text fontSize="2xl" fontWeight="bold" bgGradient="linear(to-r, purple.400, purple.600)" bgClip="text">
           FansMetric
         </Text>
-        <Tooltip label={colorMode === 'light' ? 'Dark mode' : 'Light mode'}>
-          <IconButton
-            aria-label="Toggle theme"
-            icon={colorMode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            onClick={toggleColorMode}
-            variant="ghost"
-            size="sm"
-            colorScheme="gray"
-          />
-        </Tooltip>
       </Flex>
 
       <VStack spacing={1} p={4} flex={1} align="stretch">

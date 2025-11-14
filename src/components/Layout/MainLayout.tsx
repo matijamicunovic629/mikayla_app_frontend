@@ -1,6 +1,7 @@
 import { Box, Container, useBreakpointValue } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 import { Sidebar } from './Sidebar';
+import { Header } from './Header';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -23,6 +24,7 @@ export const MainLayout = ({ children, activeView, onViewChange }: MainLayoutPro
         onOpen={() => setIsSidebarOpen(true)}
       />
       <Box ml={{ base: 0, md: '260px' }} minH="100vh">
+        <Header />
         <Container maxW="container.xl" py={8} px={{ base: 4, md: 8 }}>
           {children}
         </Container>
