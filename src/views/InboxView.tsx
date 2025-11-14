@@ -23,7 +23,8 @@ export const InboxView = () => {
   const [messages, setMessages] = useState<(Message & { social_account?: any })[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [messageReplies, setMessageReplies] = useState<MessageReply[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     platform: 'all',
     status: 'all',
@@ -73,7 +74,7 @@ export const InboxView = () => {
         title: 'Error loading messages',
         description: error.message,
         status: 'error',
-        
+
       });
     } else {
       let filteredData = data || [];
@@ -87,6 +88,7 @@ export const InboxView = () => {
       setMessages(filteredData);
     }
     setLoading(false);
+    setInitialLoading(false);
   };
 
   const handleMessageClick = async (message: Message) => {
@@ -116,7 +118,7 @@ export const InboxView = () => {
   const unreadCount = messages.filter((m) => !m.is_read).length;
   const unrepliedCount = messages.filter((m) => !m.is_replied).length;
 
-  if (loading) {
+  if (initialLoading) {
     return (
       <Flex justify="center" align="center" minH="400px">
         <Spinner size="xl" color="blue.500" />
@@ -142,36 +144,56 @@ export const InboxView = () => {
 
       <InboxFilters filters={filters} onFilterChange={handleFilterChange} />
 
-      {messages.length === 0 ? (
-        <VStack
-          spacing={4}
-          py={20}
-          px={6}
-          bg="gray.50"
-          borderRadius="lg"
-          borderWidth="2px"
-          borderStyle="dashed"
-          borderColor="gray.300"
-        >
-          <Icon as={InboxIcon} w={16} h={16} color="gray.400" />
-          <Heading size="md" color="gray.600">
-            No messages found
-          </Heading>
-          <Text color="gray.500" textAlign="center">
-            Connect your social accounts to start receiving messages
-          </Text>
-        </VStack>
-      ) : (
-        <VStack spacing={4} align="stretch">
-          {messages.map((message) => (
-            <MessageCard
-              key={message.id}
-              message={message}
-              onClick={() => handleMessageClick(message)}
-            />
-          ))}
-        </VStack>
-      )}
+      <Box position="relative" minH="200px">
+        {loading && (
+          <Flex
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            justify="center"
+            align="center"
+            bg="whiteAlpha.800"
+            _dark={{ bg: 'blackAlpha.800' }}
+            zIndex={1}
+            borderRadius="lg"
+          >
+            <Spinner size="lg" color="blue.500" />
+          </Flex>
+        )}
+        {messages.length === 0 ? (
+          <VStack
+            spacing={4}
+            py={20}
+            px={6}
+            bg="gray.50"
+            borderRadius="lg"
+            borderWidth="2px"
+            borderStyle="dashed"
+            borderColor="gray.300"
+            _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
+          >
+            <Icon as={InboxIcon} w={16} h={16} color="gray.400" />
+            <Heading size="md" color="gray.600" _dark={{ color: 'gray.400' }}>
+              No messages found
+            </Heading>
+            <Text color="gray.500" textAlign="center">
+              Connect your social accounts to start receiving messages
+            </Text>
+          </VStack>
+        ) : (
+          <VStack spacing={4} align="stretch">
+            {messages.map((message) => (
+              <MessageCard
+                key={message.id}
+                message={message}
+                onClick={() => handleMessageClick(message)}
+              />
+            ))}
+          </VStack>
+        )}
+      </Box>
 
       {selectedMessage && (
         <MessageDetailModal
