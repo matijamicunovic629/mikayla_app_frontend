@@ -17,7 +17,7 @@ import {
   VStack,
   Divider,
 } from '@chakra-ui/react';
-import { Moon, Sun, ChevronDown, RefreshCw, Check, Settings } from 'lucide-react';
+import { Moon, Sun, ChevronDown, RefreshCw, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
@@ -218,12 +218,11 @@ export const Header = () => {
                                 : 'red'
                             }
                             fontSize="xs"
-                          >
-                            {syncStatus.text}
-                          </Badge>
-                          <Text fontSize="xs" color="gray.500">
-                            {getTimeSinceSync(account.last_synced_at)}
-                          </Text>
+                            w="8px"
+                            h="8px"
+                            borderRadius="full"
+                            p={0}
+                          />
                         </HStack>
                       </VStack>
                       <Tooltip label="Sync this account">
@@ -255,46 +254,6 @@ export const Header = () => {
             </MenuItem>
           </MenuList>
         </Menu>
-
-        {currentSyncStatus && (
-          <HStack spacing={2}>
-            <Badge
-              colorScheme={
-                currentSyncStatus.status === 'success'
-                  ? 'green'
-                  : currentSyncStatus.status === 'warning'
-                  ? 'orange'
-                  : 'red'
-              }
-              px={2}
-              py={1}
-              borderRadius="md"
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              {currentSyncStatus.status === 'success' && <Check size={12} />}
-              <Text fontSize="xs">{currentSyncStatus.text}</Text>
-            </Badge>
-            <Text fontSize="xs" color="gray.500">
-              {getTimeSinceSync(currentAccount?.last_synced_at || null)}
-            </Text>
-          </HStack>
-        )}
-
-        <Tooltip label="Sync selected accounts">
-          <Button
-            leftIcon={<RefreshCw size={16} />}
-            size="md"
-            colorScheme="purple"
-            isLoading={isSyncing}
-            isDisabled={selectedAccounts.length === 0}
-            onClick={handleSync}
-            loadingText="Syncing"
-          >
-            Sync
-          </Button>
-        </Tooltip>
 
         <Tooltip label={colorMode === 'light' ? 'Dark mode' : 'Light mode'}>
           <IconButton
